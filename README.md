@@ -36,30 +36,30 @@ npm install @designliquido/delegua-dados
 import { RecorteDados, analisarCSV } from '@designliquido/delegua-dados';
 
 // Criar tabela
-const df = new RecorteDados({
+const rd = new RecorteDados({
     nome: ['Alice', 'Bob', 'Charlie'],
     idade: [25, 30, 35],
     salario: [3000, 3500, 4000]
 });
 
 // Visualizar
-console.log(df.cabeca());           // Primeiras 5 linhas
-console.log(df.descrever());        // Estatísticas
+console.log(rd.cabeca());           // Primeiras 5 linhas
+console.log(rd.descrever());        // Estatísticas
 
 // Selecionar coluna
-const nomes = df.selecionarColuna('nome');
+const nomes = rd.selecionarColuna('nome');
 
 // Filtrar
-const maiores30 = df.filtrar([false, true, true]);
+const maiores30 = rd.filtrar([false, true, true]);
 
 // Agrupar
-const porDept = df.agruparPor('departamento').soma();
+const porDept = rd.agruparPor('departamento').soma();
 
 // Análise agnóstica à plataforma
 const csv = `nome,idade,salario
 Alice,25,3000
 Bob,30,3500`;
-const df2 = analisarCSV(csv);
+const rd2 = analisarCSV(csv);
 ```
 
 ---
@@ -86,20 +86,20 @@ const s = new Serie([1, 2, 3, 4, 5], {
 });
 
 // RecorteDados - Objeto com colunas
-const df1 = new RecorteDados({
+const rd1 = new RecorteDados({
     'nome': ['Alice', 'Bob', 'Charlie'],
     'idade': [25, 30, 35],
     'salario': [3000, 3500, 4000]
 });
 
 // RecorteDados - Array de objetos
-const df2 = new RecorteDados([
+const rd2 = new RecorteDados([
     { nome: 'Alice', idade: 25, salario: 3000 },
     { nome: 'Bob', idade: 30, salario: 3500 }
 ]);
 
 // RecorteDados - Cópia
-const df3 = new RecorteDados(df1);
+const rd3 = new RecorteDados(rd1);
 ```
 
 ---
@@ -108,68 +108,68 @@ const df3 = new RecorteDados(df1);
 
 ### Visualização
 ```typescript
-df.cabeca(5);              // Primeiras N linhas
-df.cauda(3);               // Últimas N linhas
-df.paraTexto();            // String formatada
-df.paraArrayObjetos();     // Array de objetos
-df.info();                 // Informações de colunas
-df.descrever();            // Estatísticas resumidas
+rd.cabeca(5);              // Primeiras N linhas
+rd.cauda(3);               // Últimas N linhas
+rd.paraTexto();            // String formatada
+rd.paraArrayObjetos();     // Array de objetos
+rd.info();                 // Informações de colunas
+rd.descrever();            // Estatísticas resumidas
 ```
 
 ### Seleção de Dados
 ```typescript
 // Colunas
-df.selecionarColuna('nome');              // Retorna Serie
-df.selecionarColunas(['id', 'nome']);     // Retorna RecorteDados
+rd.selecionarColuna('nome');              // Retorna Serie
+rd.selecionarColunas(['id', 'nome']);     // Retorna RecorteDados
 
 // Por posição (pos) - em desenvolvimento
-df.pos[0];                 // Primeira linha
-df.pos[0, 1];              // Célula específica
+rd.pos[0];                 // Primeira linha
+rd.pos[0, 1];              // Célula específica
 
 // Por rótulo (rot) - em desenvolvimento
-df.rot[0];                 // Linha com índice 0
+rd.rot[0];                 // Linha com índice 0
 ```
 
 ### Modificação
 ```typescript
 // Adicionar coluna
-df.adicionarColuna('bônus', [300, 350, 400]);
+rd.adicionarColuna('bônus', [300, 350, 400]);
 
 // Remover colunas
-df.remover(['coluna_inutil']);
+rd.remover(['coluna_inutil']);
 
 // Renomear
-df.renomear({ 'velho_nome': 'novo_nome' });
+rd.renomear({ 'velho_nome': 'novo_nome' });
 
 // Ordenar
-df.ordenarPor('idade');
-df.ordenarPor('salario', false);  // Decrescente
+rd.ordenarPor('idade');
+rd.ordenarPor('salario', false);  // Decrescente
 ```
 
 ### Limpeza de Dados
 ```typescript
 // Valores nulos
-df.temNulo();              // Detecta nulos
-df.removerNulo();          // Remove linhas com nulos
-df.preencherNulo(0);       // Preenche nulos
+rd.temNulo();              // Detecta nulos
+rd.removerNulo();          // Remove linhas com nulos
+rd.preencherNulo(0);       // Preenche nulos
 
 // Duplicatas
-df.removerDuplicatas();    // Remove linhas idênticas
+rd.removerDuplicatas();    // Remove linhas idênticas
 ```
 
 ### Transformações
 ```typescript
 // Filtro
 const mascara = [true, false, true];
-df.filtrar(mascara);
+rd.filtrar(mascara);
 
 // Aplicar função
-df.aplicar((coluna) => {
+rd.aplicar((coluna) => {
     return new Serie(coluna.dados.map(x => x * 2));
 });
 
 // Operações vetorizadas
-const serie = df.selecionarColuna('salario');
+const serie = rd.selecionarColuna('salario');
 const aumentado = serie.aplicar(x => x * 1.1);
 ```
 
@@ -179,10 +179,10 @@ const aumentado = serie.aplicar(x => x * 1.1);
 
 ```typescript
 // Agrupamento simples
-const grupos = df.agruparPor('departamento');
+const grupos = rd.agruparPor('departamento');
 
 // Múltiplas colunas
-const grupos = df.agruparPor(['departamento', 'turno']);
+const grupos = rd.agruparPor(['departamento', 'turno']);
 
 // Agregações
 grupos.soma();             // Sum
@@ -215,12 +215,12 @@ A,1000,200
 B,800,150
 C,1500,300`;
 
-const df = analisarCSV(csv);
-const stats = df.descrever();
+const rd = analisarCSV(csv);
+const stats = rd.descrever();
 
 // Conversão de volta para CSV
-const csvSaida = paraCSV(df);
-const csvComIndice = paraCSV(df, { indice: true });
+const csvSaida = paraCSV(rd);
+const csvComIndice = paraCSV(rd, { indice: true });
 ```
 
 ### CSV - Node.js File-Based (Node.js apenas)
@@ -229,14 +229,14 @@ const csvComIndice = paraCSV(df, { indice: true });
 import { lerCSV, escreverCSV } from '@designliquido/delegua-dados';
 
 // Ler arquivo
-const df = lerCSV('dados.csv', {
+const rd = lerCSV('dados.csv', {
     delimitador: ',',
     temCabecalho: true,
     colunas: ['id', 'nome', 'idade']
 });
 
 // Escrever arquivo
-escreverCSV(df, 'saida.csv', {
+escreverCSV(rd, 'saida.csv', {
     delimitador: ';',
     indice: true
 });
@@ -261,8 +261,8 @@ const sistemaArquivos = {
 };
 
 // Usar com sistema customizado
-const df = await lerCSVComSistema('dados', sistemaArquivos);
-await escreverCSVComSistema(df, 'resultado', sistemaArquivos);
+const rd = await lerCSVComSistema('dados', sistemaArquivos);
+await escreverCSVComSistema(rd, 'resultado', sistemaArquivos);
 ```
 
 ---
@@ -270,23 +270,23 @@ await escreverCSVComSistema(df, 'resultado', sistemaArquivos);
 ## 📈 Estatísticas
 
 ```typescript
-const df = lerCSV('dados.csv');
+const rd = lerCSV('dados.csv');
 
 // Valores únicos
-df.selecionarColuna('categoria').unico();
+rd.selecionarColuna('categoria').unico();
 
 // Contagem de valores
-df.selecionarColuna('status').contagemValores();
+rd.selecionarColuna('status').contagemValores();
 
 // Operações estatísticas
-df.descrever();        // Resumo estatístico
-df.media();            // Média de colunas numéricas
-df.soma();             // Soma
-df.desvio();           // Desvio padrão
-df.variancia();        // Variância
-df.minimo();           // Valor mínimo
-df.maximo();           // Valor máximo
-df.mediana();          // Mediana
+rd.descrever();        // Resumo estatístico
+rd.media();            // Média de colunas numéricas
+rd.soma();             // Soma
+rd.desvio();           // Desvio padrão
+rd.variancia();        // Variância
+rd.minimo();           // Valor mínimo
+rd.maximo();           // Valor máximo
+rd.mediana();          // Mediana
 ```
 
 ---
@@ -324,19 +324,19 @@ const soma_mensal = resampler.soma();
 
 ```typescript
 // Concatenação vertical (append)
-const combinado = concatenar([df1, df2]);
+const combinado = concatenar([rd1, rd2]);
 
 // Concatenação horizontal
-const largo = concatenar([df1, df2], { axis: 1 });
+const largo = concatenar([rd1, rd2], { axis: 1 });
 
 // Merge (SQL-like join)
-const resultado = mesclar(df1, df2, {
+const resultado = mesclar(rd1, rd2, {
     on: 'id',
     tipo: 'inner'  // ou 'left', 'right', 'outer'
 });
 
 // Join por índice
-const juntado = df1.juntar(df2);
+const juntado = rd1.juntar(rd2);
 ```
 
 ---
@@ -345,24 +345,24 @@ const juntado = df1.juntar(df2);
 
 ```typescript
 // Transpor
-const transposto = df.transpor();
+const transposto = rd.transpor();
 
 // Pivot (wide para long)
-const dinamizado = df.dinamizar({
+const dinamizado = rd.dinamizar({
     index: 'data',
     columns: 'categoria',
     values: 'valor'
 });
 
 // Melt (wide para long)
-const alongado = derreter(df, {
+const alongado = derreter(rd, {
     id_vars: ['id', 'nome'],
     value_vars: ['jan', 'fev', 'mar']
 });
 
 // Stack/Unstack
-const empilhado = df.empilhar();
-const desempilhado = df.desempilhar();
+const empilhado = rd.empilhar();
+const desempilhado = rd.desempilhar();
 ```
 
 ---
@@ -410,15 +410,15 @@ Banana,15,1.2
 Laranja,8,3.0`;
 
 // Processar
-const df = analisarCSV(csv);
-const df2 = df.adicionarColuna('total', 
-    df.selecionarColuna('quantidade').dados.map((q, i) => 
-        q * df.selecionarColuna('preco').dados[i]
+const rd = analisarCSV(csv);
+const rd2 = rd.adicionarColuna('total', 
+    rd.selecionarColuna('quantidade').dados.map((q, i) => 
+        q * rd.selecionarColuna('preco').dados[i]
     )
 );
 
 // Converter de volta
-const resultado = paraCSV(df2);
+const resultado = paraCSV(rd2);
 console.log(resultado);  // String CSV
 ```
 
@@ -494,30 +494,6 @@ delegua-dados/
 ├── tsconfig.json
 └── jest.config.ts
 ```
-
----
-
-## 📖 Documentação Detalhada
-
-### Guias Principais
-
-1. **[BROWSER_COMPATIBILITY.md](BROWSER_COMPATIBILITY.md)** - Compatibilidade com navegadores e VSCode web extensions
-2. **[SOLUTION_SUMMARY.md](SOLUTION_SUMMARY.md)** - Resumo da solução agnóstica à plataforma
-3. **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)** - Guia para desenvolvedores
-
-### Documentação das Fases
-
-- **[FASE_1_COMPLETA.md](FASE_1_COMPLETA.md)** - Core data structures
-- **[FASE_2_COMPLETA.md](FASE_2_COMPLETA.md)** - Transformações
-- **[FASE_3_COMPLETA.md](FASE_3_COMPLETA.md)** - Análise e GroupBy
-- **[FASE_4_COMPLETA.md](FASE_4_COMPLETA.md)** - I/O avançado
-- **[FASE_5_COMPLETA.md](FASE_5_COMPLETA.md)** - Séries temporais
-- **[FASE_6_COMPLETA.md](FASE_6_COMPLETA.md)** - Integração Delégua
-
-### Referência Rápida
-
-- **[DELIVERY_SUMMARY.md](DELIVERY_SUMMARY.md)** - Status de entrega completo
-- **[00_START_HERE.md](00_START_HERE.md)** - Comece aqui para visão geral
 
 ---
 
@@ -630,7 +606,7 @@ Isso garante compatibilidade com:
 
 ## 🤝 Contribuindo
 
-Contribuições são bem-vindas! Veja [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) para mais informações.
+Contribuições são bem-vindas! Veja [CONTRIBUTING.MD] para mais informações.
 
 ---
 
