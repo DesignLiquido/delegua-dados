@@ -72,9 +72,9 @@ const rd2 = analisarCSV(csv);
 |--------|-----------|-----|
 | **Indice** | Rótulos para linhas/colunas | Indexação de dados |
 | **Serie** | Array 1D com rótulos | Colunas de dados |
-| **RecorteDados** | Tabela 2D (DataFrame) | Dados estruturados |
+| **RecorteDados** | Tabela 2D (também chamado de Data Frame) | Dados estruturados |
 | **IndiceTemporal** | Índice com datas/tempos | Séries temporais |
-| **Resampler** | Reamostragem de dados | Upsampling/downsampling |
+| **Reamostrador** | Reamostragem de dados | Upsampling/downsampling |
 
 ### Exemplos de Criação
 

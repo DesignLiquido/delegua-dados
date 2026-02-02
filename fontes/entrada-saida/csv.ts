@@ -1,3 +1,4 @@
+import { analisarCsv as analisarCsvDelegua, serializarCsv as serializarCsvDelegua, OpcoesCsvInterface } from '@designliquido/delegua-csv/fontes';
 import { RecorteDados } from '../recorte-dados';
 
 /**
@@ -9,6 +10,27 @@ export interface OpcoesCSV {
     temInicio?: number;
     colunas?: string[];
     indice?: boolean;
+}
+
+function mapearOpcoesCSV(opcoes?: OpcoesCSV): OpcoesCsvInterface {
+    return {
+        delimitador: opcoes?.delimitador,
+        cabecalho: false,
+        ignorarLinhasVazias: true
+    };
+}
+
+function normalizarTextoCSV(conteudoCSV: string, temInicio = 0): string {
+    if (!conteudoCSV) {
+        return '';
+    }
+
+    if (!temInicio || temInicio <= 0) {
+        return conteudoCSV;
+    }
+
+    const linhas = conteudoCSV.split(/\r?\n/);
+    return linhas.slice(temInicio).join('\n');
 }
 
 /**
@@ -80,31 +102,25 @@ export function analisarCSV(conteudoCSV: string, opcoes?: OpcoesCSV): RecorteDad
         ...opcoes
     };
 
-    const linhas = conteudoCSV.trim().split('\n');
+    const textoNormalizado = normalizarTextoCSV(conteudoCSV, opcoesPadrao.temInicio);
+    const linhas = analisarCsvDelegua({}, textoNormalizado, mapearOpcoesCSV(opcoesPadrao));
 
-    if (linhas.length === 0) {
+    if (!Array.isArray(linhas) || linhas.length === 0) {
         return new RecorteDados({});
     }
-
-    // Pular linhas iniciais
-    const linhasProcessadas = linhas.slice(opcoesPadrao.temInicio);
 
     // Extrair cabeçalho
     let nomeColunas: string[];
     let dadosLinhas: string[][];
 
-    if (opcoesPadrao.temCabecalho && linhasProcessadas.length > 0) {
-        nomeColunas = linhasProcessadas[0]
-            .split(opcoesPadrao.delimitador!)
-            .map((c: string) => c.trim());
-        dadosLinhas = linhasProcessadas.slice(1)
-            .map((linha: string) => linha.split(opcoesPadrao.delimitador!).map((v: string) => v.trim()));
+    if (opcoesPadrao.temCabecalho && linhas.length > 0) {
+        nomeColunas = (Array.isArray(linhas[0]) ? linhas[0] : [linhas[0]]).map((c: any) => c.trim());
+        dadosLinhas = linhas.slice(1).map((linha) => (Array.isArray(linha) ? linha : [linha]).map((v: any) => v.trim()));
     } else {
         // Se não houver cabeçalho, criar automaticamente
-        const primeiralinha = linhasProcessadas[0]?.split(opcoesPadrao.delimitador!) || [];
-        nomeColunas = primeiralinha.map((_: string, i: number) => `coluna_${i}`);
-        dadosLinhas = linhasProcessadas
-            .map((linha: string) => linha.split(opcoesPadrao.delimitador!).map((v: string) => v.trim()));
+        const primeiraLinha = (linhas[0] ?? []) as string[];
+        nomeColunas = primeiraLinha.map((_: string, i: number) => `coluna_${i}`);
+        dadosLinhas = linhas.map((linha) => (Array.isArray(linha) ? linha : [linha]).map((v: any) => v.trim()));
     }
 
     // Filtrar colunas se especificado
@@ -156,7 +172,7 @@ export function paraCSV(df: RecorteDados, opcoes?: OpcoesCSV): string {
         ...opcoes
     };
 
-    const linhas: string[] = [];
+    const tabela: string[][] = [];
 
     // Escrever cabeçalho
     const cabecalho: string[] = [];
@@ -164,7 +180,7 @@ export function paraCSV(df: RecorteDados, opcoes?: OpcoesCSV): string {
         cabecalho.push('indice');
     }
     cabecalho.push(...df.nomeColunas);
-    linhas.push(cabecalho.join(opcoesPadrao.delimitador!));
+    tabela.push(cabecalho);
 
     // Escrever dados
     const dados = df.paraArrayObjetos();
@@ -180,18 +196,12 @@ export function paraCSV(df: RecorteDados, opcoes?: OpcoesCSV): string {
             if (valor === null || valor === undefined) {
                 valor = '';
             }
-            // Escapar aspas
-            valor = String(valor).replace(/"/g, '""');
-            // Adicionar aspas se contiver delimitador ou quebra de linha
-            if (String(valor).includes(opcoesPadrao.delimitador!) || String(valor).includes('\n')) {
-                valor = `"${valor}"`;
-            }
-            valores.push(valor);
+            valores.push(String(valor));
         }
-        linhas.push(valores.join(opcoesPadrao.delimitador!));
+        tabela.push(valores);
     });
 
-    return linhas.join('\n');
+    return serializarCsvDelegua({}, tabela, mapearOpcoesCSV(opcoesPadrao));
 }
 
 /**
