@@ -153,7 +153,7 @@ export class IndiceTemporal {
     }
 
     /**
-     * Retorna array de timestamps (ms desde epoch)
+     * Retorna array de carimbos de tempo (ms desde epoch)
      */
     get timestamp(): number[] {
         return this.datas.map(d => d.getTime());

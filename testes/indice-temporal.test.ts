@@ -21,7 +21,7 @@ describe('IndiceTemporal', () => {
             expect(dti.comprimento).toBe(2);
         });
 
-        it('deve criar IndiceTemporal a partir de timestamps', () => {
+        it('deve criar IndiceTemporal a partir de carimbos de tempo', () => {
             const ts = [
                 new Date('2024-01-01').getTime(),
                 new Date('2024-01-02').getTime()
@@ -86,10 +86,10 @@ describe('IndiceTemporal', () => {
             expect(dti.segundo).toEqual([45, 0, 59]);
         });
 
-        it('deve retornar array de timestamps', () => {
-            const timestamps = dti.timestamp;
-            expect(timestamps).toHaveLength(3);
-            expect(timestamps[0] < timestamps[1]).toBe(true);
+        it('deve retornar array de carimbos de tempo', () => {
+            const carimbosTempo = dti.timestamp;
+            expect(carimbosTempo).toHaveLength(3);
+            expect(carimbosTempo[0] < carimbosTempo[1]).toBe(true);
         });
 
         it('deve retornar comprimento correto', () => {
@@ -484,7 +484,7 @@ describe('Casos de Uso Realistas', () => {
         expect(diffs.every(d => d === 5)).toBe(true);
     });
 
-    it('deve trabalhar com timestamps altos', () => {
+    it('deve trabalhar com carimbos de tempo altos', () => {
         const datas = criarIntervaloDatas('2050-01-01', '2050-01-10', 'D');
         expect(datas.comprimento).toBe(10);
         // Verificar que são datas em 2050 ou 2049 (timezone)
