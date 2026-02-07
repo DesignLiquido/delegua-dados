@@ -1,14 +1,14 @@
 /**
- * delegua-dados: Módulo de Integração com Intérprete Delégua
+ * delegua-dados: Módulo de Integração com a linguagem de programação Delégua
  *
  * Este módulo expõe todas as classes e funções da biblioteca delegua-dados
- * para integração com o intérprete Delégua, seguindo os padrões de integração
+ * para integração com a linguagem de programação Delégua, seguindo os padrões de integração
  * estabelecidos em delegua-arquivos.
  * 
  * Nota: JSON, Excel e SQL I/O estão em pacotes separados opcionais:
- * - delegua-dados-json
- * - delegua-dados-excel
- * - delegua-dados-sql
+ * - delegua-json
+ * - delegua-excel
+ * - delegua-sql
  */
 
 import {
