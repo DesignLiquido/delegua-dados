@@ -317,7 +317,7 @@ export const DeleguaModuloDados = {
     ],
   },
 
-  // Funções de Resampling
+  // Funções de Reamostragem
   reamostrar: {
     tipoRetorno: 'RecorteDados',
     funcao: reamostrar,

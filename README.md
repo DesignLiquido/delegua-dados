@@ -305,17 +305,17 @@ const datas = criarRangeDatas('2024-01-01', '2024-12-31', 'D');
 const ts = new Serie(valores, { indice: datas });
 
 // Parsing de datas
-const data = parsearData('2024-01-15');
+const data = compreenderData('2024-01-15');
 const formatado = formatarData(data, 'yyyy-MM-dd');
 
 // Diferenças temporais
-const dias = diferenca_dias(data1, data2);
-const horas = diferenca_horas(data1, data2);
+const dias = diferencaDias(data1, data2);
+const horas = diferencaHoras(data1, data2);
 
-// Resampling
-const resampler = ts.reamostrar('M');  // Para mensal
-const media_mensal = resampler.media();
-const soma_mensal = resampler.soma();
+// Reamostragem
+const reamostrador = ts.reamostrar('M');  // Para mensal
+const media_mensal = reamostrador.media();
+const soma_mensal = reamostrador.soma();
 ```
 
 ---
@@ -486,7 +486,7 @@ delegua-dados/
 │   ├── operacoes/                   # Operações vetorizadas
 │   ├── entrada-saida/               # I/O (CSV, JSON, Excel)
 │   ├── indice-temporal.ts           # IndiceTemporal
-│   ├── reamostrador.ts              # Resampling
+│   ├── reamostrador.ts              # Reamostragem
 │   └── index.ts                     # Exports principais
 ├── testes/                          # 15 test suites, 380 testes
 ├── delegua-modulo.ts                # Exportação para Delégua
@@ -525,7 +525,7 @@ delegua-dados/
 
 ### ✅ Fase 5: Séries Temporais
 - IndiceTemporal (DatetimeIndex)
-- Resampling (upsampling/downsampling)
+- Reamostragem (upsampling/downsampling)
 - Funções de data/hora
 - Suporte a timezones
 

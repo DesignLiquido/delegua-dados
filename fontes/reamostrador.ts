@@ -62,8 +62,8 @@ export class Reamostrador {
      * @returns Novo RecorteDados com frequência reduzida
      * 
      * @example
-     * const resampler = new Reamostrador(rd, indice_data, 'M');
-     * const mensal = resampler.degradar('media');
+     * const reamostrador = new Reamostrador(rd, indice_data, 'M');
+     * const mensal = reamostrador.degradar('media');
      */
     degradar(
         agregacao: FuncaoAgregacao,
@@ -120,8 +120,8 @@ export class Reamostrador {
      * @returns Novo RecorteDados com frequência aumentada
      * 
      * @example
-     * const resampler = new Reamostrador(rd, indice_data, 'H');
-     * const horario = resampler.enriquecer('ffill');
+     * const reamostrador = new Reamostrador(rd, indice_data, 'H');
+     * const horario = reamostrador.enriquecer('ffill');
      */
     enriquecer(
         metodoPreenchimento: 'ffill' | 'bfill' | 'interpolacao' = 'ffill'

@@ -17,8 +17,8 @@ describe('Resampler', () => {
                 categoria: ['A', 'B', 'A', 'B', 'A']
             });
 
-            const resampler = new Reamostrador(rd, datas, 'M');
-            expect(resampler).toBeTruthy();
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            expect(reamostrador).toBeTruthy();
         });
 
         it('deve lançar erro se comprimentos não correspondem', () => {
@@ -46,16 +46,16 @@ describe('Resampler', () => {
         });
 
         it('deve fazer downsampling diário para mensal com média', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('media');
 
             expect(resultado.dados.forma[0]).toBeLessThanOrEqual(rd.forma[0]);
             expect(resultado.indice instanceof IndiceTemporal).toBe(true);
         });
 
         it('deve fazer downsampling com soma', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('soma');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('soma');
 
             const soma_valores = resultado.dados.selecionarColuna('valor');
             expect(soma_valores.dados.length).toBeGreaterThan(0);
@@ -63,67 +63,67 @@ describe('Resampler', () => {
         });
 
         it('deve fazer downsampling com mínimo', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('minimo');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('minimo');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(0);
         });
 
         it('deve fazer downsampling com máximo', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('maximo');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('maximo');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(0);
         });
 
         it('deve fazer downsampling com contagem', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('contar');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('contar');
 
             const contar = resultado.dados.selecionarColuna('valor');
             expect(contar.dados.every(v => typeof v === 'number')).toBe(true);
         });
 
         it('deve fazer downsampling com primeiro valor', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('primeiro');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('primeiro');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(0);
         });
 
         it('deve fazer downsampling com último valor', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('ultimo');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('ultimo');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(0);
         });
 
         it('deve preservar colunas não-numéricas usando primeiro valor', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('media');
 
             const categoria = resultado.dados.selecionarColuna('categoria');
             expect(categoria.dados.every(v => typeof v === 'string')).toBe(true);
         });
 
         it('deve agregar apenas colunas numéricas especificadas', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('media', ['valor']);
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('media', ['valor']);
 
             expect(resultado.dados.nomeColunas).toContain('valor');
             expect(resultado.dados.nomeColunas).toContain('categoria');
         });
 
         it('deve preservar nome das colunas após downsampling', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('media');
 
             expect(resultado.dados.nomeColunas).toEqual(rd.nomeColunas);
         });
 
         it('deve manter forma de dados válida', () => {
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('media');
 
             expect(resultado.dados.forma[1]).toBe(3); // 3 colunas
             expect(resultado.dados.forma[0]).toBeGreaterThan(0);
@@ -138,8 +138,8 @@ describe('Resampler', () => {
                 temperatura: Array.from({ length: 24 }, (_, i) => 20 + i * 0.5)
             });
 
-            const resampler = new Reamostrador(rd, datas, 'D');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'D');
+            const resultado = reamostrador.degradar('media');
 
             expect(resultado.dados.forma[0]).toBeGreaterThanOrEqual(1);
             expect(resultado.dados.forma[0]).toBeLessThanOrEqual(2);
@@ -151,8 +151,8 @@ describe('Resampler', () => {
                 valor: Array.from({ length: datas.comprimento }, (_, i) => i + 1)
             });
 
-            const resampler = new Reamostrador(rd, datas, 'S');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'S');
+            const resultado = reamostrador.degradar('media');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(1);
             expect(resultado.dados.forma[0]).toBeLessThan(datas.comprimento);
@@ -170,8 +170,8 @@ describe('Resampler', () => {
                 valor: [100, 200, 300, 400, 500]
             });
 
-            const resampler = new Reamostrador(rd, datas, 'Y');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'Y');
+            const resultado = reamostrador.degradar('media');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(0);
             expect(resultado.dados.forma[0]).toBeLessThanOrEqual(5);
@@ -192,22 +192,22 @@ describe('Resampler', () => {
         });
 
         it('deve fazer upsampling com forward fill', () => {
-            const resampler = new Reamostrador(rd, datas, 'H');
-            const resultado = resampler.enriquecer('ffill');
+            const reamostrador = new Reamostrador(rd, datas, 'H');
+            const resultado = reamostrador.enriquecer('ffill');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(rd.forma[0]);
         });
 
         it('deve fazer upsampling com backward fill', () => {
-            const resampler = new Reamostrador(rd, datas, 'H');
-            const resultado = resampler.enriquecer('bfill');
+            const reamostrador = new Reamostrador(rd, datas, 'H');
+            const resultado = reamostrador.enriquecer('bfill');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(rd.forma[0]);
         });
 
         it('deve fazer upsampling com interpolação', () => {
-            const resampler = new Reamostrador(rd, datas, 'H');
-            const resultado = resampler.enriquecer('interpolacao');
+            const reamostrador = new Reamostrador(rd, datas, 'H');
+            const resultado = reamostrador.enriquecer('interpolacao');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(rd.forma[0]);
             const valores = resultado.dados.selecionarColuna('valor');
@@ -215,8 +215,8 @@ describe('Resampler', () => {
         });
 
         it('deve criar índice upsampling válido', () => {
-            const resampler = new Reamostrador(rd, datas, 'H');
-            const resultado = resampler.enriquecer('ffill');
+            const reamostrador = new Reamostrador(rd, datas, 'H');
+            const resultado = reamostrador.enriquecer('ffill');
 
             expect(resultado.indice instanceof IndiceTemporal).toBe(true);
             expect(resultado.indice.estaOrdenado()).toBe(true);
@@ -228,16 +228,16 @@ describe('Resampler', () => {
                 valor: [100, 200]
             });
 
-            const resampler = new Reamostrador(rd_simples, datas_simples, 'H');
-            const resultado = resampler.enriquecer('ffill');
+            const reamostrador = new Reamostrador(rd_simples, datas_simples, 'H');
+            const resultado = reamostrador.enriquecer('ffill');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(2);
         });
 
         it('deve usar forward fill como padrão', () => {
-            const resampler = new Reamostrador(rd, datas, 'H');
-            const resultado_padrao = resampler.enriquecer();
-            const resultado_ffill = resampler.enriquecer('ffill');
+            const reamostrador = new Reamostrador(rd, datas, 'H');
+            const resultado_padrao = reamostrador.enriquecer();
+            const resultado_ffill = reamostrador.enriquecer('ffill');
 
             expect(resultado_padrao.dados.forma).toEqual(resultado_ffill.dados.forma);
         });
@@ -255,8 +255,8 @@ describe('Resampler', () => {
                 )
             });
 
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('soma');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('soma');
 
             expect(resultado.dados.forma[0]).toBeGreaterThanOrEqual(2);
             expect(resultado.dados.forma[0]).toBeLessThanOrEqual(4);
@@ -270,8 +270,8 @@ describe('Resampler', () => {
                 )
             });
 
-            const resampler = new Reamostrador(rd, datas, 'D');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'D');
+            const resultado = reamostrador.degradar('media');
 
             expect(resultado.dados.forma[0]).toBeGreaterThanOrEqual(1);
             expect(resultado.dados.forma[0]).toBeLessThanOrEqual(3);
@@ -291,8 +291,8 @@ describe('Resampler', () => {
                 )
             });
 
-            const resampler = new Reamostrador(rd, datas, 'H');
-            const resultado = resampler.degradar('soma');
+            const reamostrador = new Reamostrador(rd, datas, 'H');
+            const resultado = reamostrador.degradar('soma');
 
             expect(resultado.dados.forma[0]).toBe(2); // 2 horas
         });
@@ -302,19 +302,19 @@ describe('Resampler', () => {
         it('deve lançar erro para agregação desconhecida', () => {
             const datas = criarIntervaloDatas('2024-01-01', '2024-01-05', 'D');
             const rd = new RecorteDados({ valor: [1, 2, 3, 4, 5] });
-            const resampler = new Reamostrador(rd, datas, 'M');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
 
             expect(() => {
-                resampler.degradar('unknown' as any);
+                reamostrador.degradar('unknown' as any);
             }).toThrow();
         });
 
         it('deve lidar com dados vazios', () => {
             const datas = new IndiceTemporal(['2024-01-01']);
             const rd = new RecorteDados({ valor: [10] });
-            const resampler = new Reamostrador(rd, datas, 'M');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
 
-            const resultado = resampler.degradar('media');
+            const resultado = reamostrador.degradar('media');
             expect(resultado.dados.forma[0]).toBe(1);
         });
 
@@ -324,8 +324,8 @@ describe('Resampler', () => {
                 valor: [10, null, 30, null, 50]
             });
 
-            const resampler = new Reamostrador(rd, datas, 'M');
-            const resultado = resampler.degradar('media');
+            const reamostrador = new Reamostrador(rd, datas, 'M');
+            const resultado = reamostrador.degradar('media');
 
             expect(resultado.dados.forma[0]).toBeGreaterThan(0);
         });
@@ -386,8 +386,8 @@ describe('Interpolação', () => {
             valor: [10, 30]
         });
 
-        const resampler = new Reamostrador(rd, datas, 'D');
-        const resultado = resampler.enriquecer('interpolacao');
+        const reamostrador = new Reamostrador(rd, datas, 'D');
+        const resultado = reamostrador.enriquecer('interpolacao');
 
         const valores = resultado.dados.selecionarColuna('valor');
         expect(valores.dados[1]).toBe(20); // Interpolado entre 10 e 30
@@ -400,8 +400,8 @@ describe('Interpolação', () => {
             umidade: [50, 60, 70]
         });
 
-        const resampler = new Reamostrador(rd, datas, 'D');
-        const resultado = resampler.enriquecer('interpolacao');
+        const reamostrador = new Reamostrador(rd, datas, 'D');
+        const resultado = reamostrador.enriquecer('interpolacao');
 
         expect(resultado.dados.forma[0]).toBe(5); // 5 dias
         expect(resultado.dados.nomeColunas).toEqual(['temp', 'umidade']);
@@ -413,8 +413,8 @@ describe('Interpolação', () => {
             valor: [20, 50]
         });
 
-        const resampler = new Reamostrador(rd, datas, 'D');
-        const resultado = resampler.enriquecer('interpolacao');
+        const reamostrador = new Reamostrador(rd, datas, 'D');
+        const resultado = reamostrador.enriquecer('interpolacao');
 
         expect(resultado.dados.forma[0]).toBeGreaterThan(0);
     });
@@ -427,8 +427,8 @@ describe('Performance e Escalabilidade', () => {
             valor: Array.from({ length: datas.comprimento }, (_, i) => i * 1.5)
         });
 
-        const resampler = new Reamostrador(rd, datas, 'M');
-        const resultado = resampler.degradar('media');
+        const reamostrador = new Reamostrador(rd, datas, 'M');
+        const resultado = reamostrador.degradar('media');
 
         expect(resultado.dados.forma[0]).toBeGreaterThan(0);
         expect(resultado.dados.forma[0]).toBeLessThan(datas.comprimento);
@@ -446,8 +446,8 @@ describe('Performance e Escalabilidade', () => {
         }
 
         const rd = new RecorteDados(dados_obj);
-        const resampler = new Reamostrador(rd, datas, 'M');
-        const resultado = resampler.degradar('media');
+        const reamostrador = new Reamostrador(rd, datas, 'M');
+        const resultado = reamostrador.degradar('media');
 
         expect(resultado.dados.forma[1]).toBe(20);
     });

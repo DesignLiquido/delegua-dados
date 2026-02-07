@@ -61,7 +61,7 @@ export class IndiceTemporal {
                 return new Date(d);
             }
 
-            throw new Error(`Não é possível parsear: ${d}`);
+            throw new Error(`Não é possível compreender: ${d}`);
         });
     }
 

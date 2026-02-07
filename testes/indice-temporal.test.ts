@@ -325,21 +325,21 @@ describe('Funções Auxiliares', () => {
         });
     });
 
-    describe('parsearData', () => {
-        it('deve parsear data ISO 8601 simples', () => {
+    describe('compreenderData', () => {
+        it('deve compreender data ISO 8601 simples', () => {
             const data = compreenderData('2024-01-15');
             expect(data.getFullYear()).toBeGreaterThanOrEqual(2023);
             expect(data.getMonth()).toBeLessThanOrEqual(0); // Jan=0 ou Dec=11
         });
 
-        it('deve parsear data ISO 8601 com hora (T)', () => {
+        it('deve compreender data ISO 8601 com hora (T)', () => {
             const data = compreenderData('2024-01-15T14:30:45');
             expect(data.getHours()).toBe(14);
             expect(data.getMinutes()).toBe(30);
             expect(data.getSeconds()).toBe(45);
         });
 
-        it('deve parsear data ISO 8601 com hora (espaço)', () => {
+        it('deve compreender data ISO 8601 com hora (espaço)', () => {
             const data = compreenderData('2024-01-15 14:30:45');
             expect(data.getHours()).toBe(14);
         });
@@ -389,7 +389,7 @@ describe('Funções Auxiliares', () => {
         });
     });
 
-    describe('diferenca_dias', () => {
+    describe('diferencaDias', () => {
         it('deve calcular diferença em dias entre duas datas', () => {
             const data1 = new Date('2024-01-01');
             const data2 = new Date('2024-01-05');
@@ -416,7 +416,7 @@ describe('Funções Auxiliares', () => {
         });
     });
 
-    describe('diferenca_horas', () => {
+    describe('diferencaHoras', () => {
         it('deve calcular diferença em horas entre duas datas', () => {
             const data1 = new Date('2024-01-01T00:00:00');
             const data2 = new Date('2024-01-01T05:00:00');
