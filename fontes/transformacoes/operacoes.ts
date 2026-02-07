@@ -304,16 +304,16 @@ export function normalizar(serie: Serie): Serie {
     const dados = serie.dados as number[];
     const min = Math.min(...dados);
     const max = Math.max(...dados);
-    const range = max - min;
+    const intervalo = max - min;
 
-    if (range === 0) {
+    if (intervalo === 0) {
         return new Serie(dados.map(() => 0), {
             indice: serie.indice.dados,
             nome: serie.nome ? `${serie.nome}_norm` : 'normalizado'
         });
     }
 
-    const resultado = dados.map(v => (v - min) / range);
+    const resultado = dados.map(v => (v - min) / intervalo);
     
     return new Serie(resultado, {
         indice: serie.indice.dados,

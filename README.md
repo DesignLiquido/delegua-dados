@@ -296,12 +296,12 @@ rd.mediana();          // Mediana
 ```typescript
 import { 
     IndiceTemporal, 
-    criarRangeDatas, 
+    criarIntervaloDatas, 
     Resampler 
 } from '@designliquido/delegua-dados';
 
 // Criar índice temporal
-const datas = criarRangeDatas('2024-01-01', '2024-12-31', 'D');
+const datas = criarIntervaloDatas('2024-01-01', '2024-12-31', 'D');
 const ts = new Serie(valores, { indice: datas });
 
 // Parsing de datas
@@ -348,16 +348,16 @@ const juntado = rd1.juntar(rd2);
 const transposto = rd.transpor();
 
 // Pivot (wide para long)
-const dinamizado = rd.dinamizar({
-    index: 'data',
-    columns: 'categoria',
-    values: 'valor'
+const dinamizado = rd.repivotar({
+    indice: 'data',
+    colunas: 'categoria',
+    valores: 'valor'
 });
 
 // Melt (wide para long)
 const alongado = derreter(rd, {
-    id_vars: ['id', 'nome'],
-    value_vars: ['jan', 'fev', 'mar']
+    variaveisIds: ['id', 'nome'],
+    variaveisValores: ['jan', 'fev', 'mar']
 });
 
 // Stack/Unstack
@@ -424,10 +424,10 @@ console.log(resultado);  // String CSV
 
 ### Exemplo 3: Séries Temporais
 ```typescript
-import { criarRangeDatas } from '@designliquido/delegua-dados';
+import { criarIntervaloDatas } from '@designliquido/delegua-dados';
 
 // Gerar datas
-const datas = criarRangeDatas('2024-01-01', '2024-12-31', 'D');
+const datas = criarIntervaloDatas('2024-01-01', '2024-12-31', 'D');
 const temperaturas = [15.5, 16.2, 14.8, 17.1, 18.3];
 
 // Criar série temporal

@@ -317,15 +317,15 @@ export class IndiceTemporal {
 }
 
 /**
- * Cria IndiceTemporal a partir de range de datas
+ * Cria IndiceTemporal a partir de intervalo de datas
  * 
  * @param dataInicio - Data de início (string ISO ou Date)
  * @param dataFim - Data de fim (string ISO ou Date)
  * @param frequencia - Frequência: 'D' (dia), 'H' (hora), 'S' (semana), 'M' (mês), 'Y' (ano)
- * @returns IndiceTemporal com datas no range e frequência
+ * @returns IndiceTemporal com datas no intervalo e frequência
  * 
  * @example
- * const dti = criarRangeDatas('2024-01-01', '2024-01-10', 'D');
+ * const dti = criarIntervaloDatas('2024-01-01', '2024-01-10', 'D');
  * // Cria datas de 1 a 10 de janeiro, 1 dia entre cada
  */
 export function criarIntervaloDatas(

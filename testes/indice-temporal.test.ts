@@ -278,27 +278,27 @@ describe('IndiceTemporal', () => {
 });
 
 describe('Funções Auxiliares', () => {
-    describe('criarRangeDatas', () => {
-        it('deve criar range de datas diárias', () => {
+    describe('criarIntervaloDatas', () => {
+        it('deve criar intervalo de datas diárias', () => {
             const dti = criarIntervaloDatas('2024-01-01', '2024-01-05', 'D');
             expect(dti.comprimento).toBe(5);
             // Verificar que são datas em janeiro (ou pode incluir dez anterior/fev próximo por timezone)
             expect(dti.ano.length).toBe(5);
         });
 
-        it('deve criar range de datas semanais', () => {
+        it('deve criar intervalo de datas semanais', () => {
             const dti = criarIntervaloDatas('2024-01-01', '2024-02-01', 'S');
             expect(dti.comprimento).toBeGreaterThan(0);
         });
 
-        it('deve criar range de datas mensais', () => {
+        it('deve criar intervalo de datas mensais', () => {
             const dti = criarIntervaloDatas('2024-01-01', '2024-12-31', 'M');
             expect(dti.comprimento).toBeGreaterThan(0);
             expect(dti.mes.includes(1)).toBe(true);
             expect(dti.mes.includes(12)).toBe(true);
         });
 
-        it('deve criar range de datas anuais', () => {
+        it('deve criar intervalo de datas anuais', () => {
             const dti = criarIntervaloDatas('2020-01-01', '2024-01-01', 'Y');
             expect(dti.comprimento).toBe(5);
             // Verificar anos (pode variar por timezone)
@@ -307,7 +307,7 @@ describe('Funções Auxiliares', () => {
             expect(Math.max(...dti.ano)).toBeLessThanOrEqual(2024);
         });
 
-        it('deve criar range de datas horárias', () => {
+        it('deve criar intervalo de datas horárias', () => {
             const dti = criarIntervaloDatas('2024-01-01T00:00:00', '2024-01-01T05:00:00', 'H');
             expect(dti.comprimento).toBe(6); // 00, 01, 02, 03, 04, 05
         });
