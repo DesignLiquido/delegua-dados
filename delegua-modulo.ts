@@ -18,14 +18,11 @@ import {
   lerCSV,
   escreverCSV,
   IndiceTemporal,
-  criarRangeDatas,
-  parsearData,
   formatarData,
-  diferenca_dias,
-  diferenca_horas,
-  Resampler,
-  resample,
+  reamostrar,
+  Reamostrador
 } from './fontes';
+import { compreenderData, criarIntervaloDatas, diferencaDias, diferencaHoras } from './fontes/indice-temporal';
 
 // Re-export para compatibilidade
 export {
@@ -35,13 +32,7 @@ export {
   lerCSV,
   escreverCSV,
   IndiceTemporal,
-  criarRangeDatas,
-  parsearData,
   formatarData,
-  diferenca_dias,
-  diferenca_horas,
-  Resampler,
-  resample,
 };
 
 /**
@@ -225,8 +216,8 @@ const IndiceTemporalMetodos = {
   },
 };
 
-// Métodos de Resampler
-const resamplerMetodos = {
+// Métodos de Reamostragem
+const metodosReamostragem = {
   downsampling: {
     tipoRetorno: 'RecorteDados',
     argumentos: [
@@ -262,9 +253,9 @@ export const DeleguaModuloDados = {
     implementacao: IndiceTemporal,
     metodos: IndiceTemporalMetodos,
   },
-  Resampler: {
-    implementacao: Resampler,
-    metodos: resamplerMetodos,
+  Reamostrador: {
+    implementacao: Reamostrador,
+    metodos: metodosReamostragem,
   },
 
   // Funções de I/O - CSV
@@ -287,18 +278,18 @@ export const DeleguaModuloDados = {
   },
 
   // Funções de Data/Hora
-  criarRangeDatas: {
+  criarIntervaloDatas: {
     tipoRetorno: 'IndiceTemporal',
-    funcao: criarRangeDatas,
+    funcao: criarIntervaloDatas,
     argumentos: [
       { nome: 'inicio', tipo: 'texto' },
       { nome: 'fim', tipo: 'texto' },
       { nome: 'frequencia', tipo: 'texto' },
     ],
   },
-  parsearData: {
+  compreenderData: {
     tipoRetorno: 'generico',
-    funcao: parsearData,
+    funcao: compreenderData,
     argumentos: [{ nome: 'str', tipo: 'texto' }],
   },
   formatarData: {
@@ -309,17 +300,17 @@ export const DeleguaModuloDados = {
       { nome: 'formato', tipo: 'texto' },
     ],
   },
-  diferenca_dias: {
+  diferencaDias: {
     tipoRetorno: 'numero',
-    funcao: diferenca_dias,
+    funcao: diferencaDias,
     argumentos: [
       { nome: 'd1', tipo: 'generico' },
       { nome: 'd2', tipo: 'generico' },
     ],
   },
-  diferenca_horas: {
+  diferencaHoras: {
     tipoRetorno: 'numero',
-    funcao: diferenca_horas,
+    funcao: diferencaHoras,
     argumentos: [
       { nome: 'd1', tipo: 'generico' },
       { nome: 'd2', tipo: 'generico' },
@@ -327,9 +318,9 @@ export const DeleguaModuloDados = {
   },
 
   // Funções de Resampling
-  resample: {
+  reamostrar: {
     tipoRetorno: 'RecorteDados',
-    funcao: resample,
+    funcao: reamostrar,
     argumentos: [
       { nome: 'dados', tipo: 'RecorteDados' },
       { nome: 'indice', tipo: 'IndiceTemporal' },

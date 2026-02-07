@@ -4,7 +4,7 @@
  * @module testes/datetime
  */
 
-import { IndiceTemporal, criarRangeDatas, parsearData, formatarData, diferenca_dias, diferenca_horas } from '../fontes/indice-temporal';
+import { IndiceTemporal, criarIntervaloDatas, compreenderData, formatarData, diferencaDias, diferencaHoras } from '../fontes/indice-temporal';
 
 describe('IndiceTemporal', () => {
     describe('Construção', () => {
@@ -265,14 +265,14 @@ describe('IndiceTemporal', () => {
         });
 
         it('deve calcular diferenças em dias', () => {
-            const diferencas = dti.diferenca_dias();
+            const diferencas = dti.diferencaDias();
             expect(diferencas).toEqual([1, 1]);
         });
 
         it('deve retornar array vazio de diferenças para índice com 1 elemento', () => {
             const unico = new IndiceTemporal(['2024-01-01']);
             expect(unico.diferencas()).toEqual([]);
-            expect(unico.diferenca_dias()).toEqual([]);
+            expect(unico.diferencaDias()).toEqual([]);
         });
     });
 });
@@ -280,26 +280,26 @@ describe('IndiceTemporal', () => {
 describe('Funções Auxiliares', () => {
     describe('criarRangeDatas', () => {
         it('deve criar range de datas diárias', () => {
-            const dti = criarRangeDatas('2024-01-01', '2024-01-05', 'D');
+            const dti = criarIntervaloDatas('2024-01-01', '2024-01-05', 'D');
             expect(dti.comprimento).toBe(5);
             // Verificar que são datas em janeiro (ou pode incluir dez anterior/fev próximo por timezone)
             expect(dti.ano.length).toBe(5);
         });
 
         it('deve criar range de datas semanais', () => {
-            const dti = criarRangeDatas('2024-01-01', '2024-02-01', 'S');
+            const dti = criarIntervaloDatas('2024-01-01', '2024-02-01', 'S');
             expect(dti.comprimento).toBeGreaterThan(0);
         });
 
         it('deve criar range de datas mensais', () => {
-            const dti = criarRangeDatas('2024-01-01', '2024-12-31', 'M');
+            const dti = criarIntervaloDatas('2024-01-01', '2024-12-31', 'M');
             expect(dti.comprimento).toBeGreaterThan(0);
             expect(dti.mes.includes(1)).toBe(true);
             expect(dti.mes.includes(12)).toBe(true);
         });
 
         it('deve criar range de datas anuais', () => {
-            const dti = criarRangeDatas('2020-01-01', '2024-01-01', 'Y');
+            const dti = criarIntervaloDatas('2020-01-01', '2024-01-01', 'Y');
             expect(dti.comprimento).toBe(5);
             // Verificar anos (pode variar por timezone)
             expect(dti.ano.length).toBe(5);
@@ -308,45 +308,45 @@ describe('Funções Auxiliares', () => {
         });
 
         it('deve criar range de datas horárias', () => {
-            const dti = criarRangeDatas('2024-01-01T00:00:00', '2024-01-01T05:00:00', 'H');
+            const dti = criarIntervaloDatas('2024-01-01T00:00:00', '2024-01-01T05:00:00', 'H');
             expect(dti.comprimento).toBe(6); // 00, 01, 02, 03, 04, 05
         });
 
         it('deve usar frequência diária como padrão', () => {
-            const dti = criarRangeDatas('2024-01-01', '2024-01-03');
+            const dti = criarIntervaloDatas('2024-01-01', '2024-01-03');
             expect(dti.comprimento).toBe(3);
         });
 
         it('deve suportar Date como entrada', () => {
             const inicio = new Date('2024-01-01');
             const fim = new Date('2024-01-05');
-            const dti = criarRangeDatas(inicio, fim, 'D');
+            const dti = criarIntervaloDatas(inicio, fim, 'D');
             expect(dti.comprimento).toBe(5);
         });
     });
 
     describe('parsearData', () => {
         it('deve parsear data ISO 8601 simples', () => {
-            const data = parsearData('2024-01-15');
+            const data = compreenderData('2024-01-15');
             expect(data.getFullYear()).toBeGreaterThanOrEqual(2023);
             expect(data.getMonth()).toBeLessThanOrEqual(0); // Jan=0 ou Dec=11
         });
 
         it('deve parsear data ISO 8601 com hora (T)', () => {
-            const data = parsearData('2024-01-15T14:30:45');
+            const data = compreenderData('2024-01-15T14:30:45');
             expect(data.getHours()).toBe(14);
             expect(data.getMinutes()).toBe(30);
             expect(data.getSeconds()).toBe(45);
         });
 
         it('deve parsear data ISO 8601 com hora (espaço)', () => {
-            const data = parsearData('2024-01-15 14:30:45');
+            const data = compreenderData('2024-01-15 14:30:45');
             expect(data.getHours()).toBe(14);
         });
 
         it('deve lançar erro para formato inválido', () => {
-            expect(() => parsearData('dados-inválidos')).toThrow();
-            expect(() => parsearData('31/12/2024')).toThrow(); // formato não-ISO
+            expect(() => compreenderData('dados-inválidos')).toThrow();
+            expect(() => compreenderData('31/12/2024')).toThrow(); // formato não-ISO
         });
     });
 
@@ -393,25 +393,25 @@ describe('Funções Auxiliares', () => {
         it('deve calcular diferença em dias entre duas datas', () => {
             const data1 = new Date('2024-01-01');
             const data2 = new Date('2024-01-05');
-            const diff = diferenca_dias(data1, data2);
+            const diff = diferencaDias(data1, data2);
             expect(diff).toBe(4);
         });
 
         it('deve retornar 0 para datas iguais', () => {
             const data = new Date('2024-01-01');
-            expect(diferenca_dias(data, data)).toBe(0);
+            expect(diferencaDias(data, data)).toBe(0);
         });
 
         it('deve retornar negativo para data2 < data1', () => {
             const data1 = new Date('2024-01-05');
             const data2 = new Date('2024-01-01');
-            expect(diferenca_dias(data1, data2)).toBe(-4);
+            expect(diferencaDias(data1, data2)).toBe(-4);
         });
 
         it('deve lidar com diferenças fracionais', () => {
             const data1 = new Date('2024-01-01T00:00:00');
             const data2 = new Date('2024-01-01T12:00:00');
-            const diff = diferenca_dias(data1, data2);
+            const diff = diferencaDias(data1, data2);
             expect(diff).toBeCloseTo(0.5, 1);
         });
     });
@@ -420,19 +420,19 @@ describe('Funções Auxiliares', () => {
         it('deve calcular diferença em horas entre duas datas', () => {
             const data1 = new Date('2024-01-01T00:00:00');
             const data2 = new Date('2024-01-01T05:00:00');
-            const diff = diferenca_horas(data1, data2);
+            const diff = diferencaHoras(data1, data2);
             expect(diff).toBe(5);
         });
 
         it('deve retornar 0 para datas iguais', () => {
             const data = new Date('2024-01-01');
-            expect(diferenca_horas(data, data)).toBe(0);
+            expect(diferencaHoras(data, data)).toBe(0);
         });
 
         it('deve contar horas em dias diferentes', () => {
             const data1 = new Date('2024-01-01T22:00:00');
             const data2 = new Date('2024-01-02T02:00:00');
-            const diff = diferenca_horas(data1, data2);
+            const diff = diferencaHoras(data1, data2);
             expect(diff).toBe(4);
         });
     });
@@ -459,7 +459,7 @@ describe('Integração com Timezone', () => {
 
 describe('Casos de Uso Realistas', () => {
     it('deve processar série temporal de vendas', () => {
-        const datas = criarRangeDatas('2024-01-01', '2024-01-31', 'D');
+        const datas = criarIntervaloDatas('2024-01-01', '2024-01-31', 'D');
         expect(datas.comprimento).toBe(31);
         const minima = datas.minima();
         const maxima = datas.maxima();
@@ -467,7 +467,7 @@ describe('Casos de Uso Realistas', () => {
     });
 
     it('deve filtrar dados de período específico', () => {
-        const datas = criarRangeDatas('2024-01-01', '2024-12-31', 'M');
+        const datas = criarIntervaloDatas('2024-01-01', '2024-12-31', 'M');
         const trimestre1 = datas.entre('2024-01-01', '2024-03-31');
         expect(trimestre1.comprimento).toBeGreaterThanOrEqual(1);
         expect(trimestre1.comprimento).toBeLessThanOrEqual(4);
@@ -480,12 +480,12 @@ describe('Casos de Uso Realistas', () => {
             '2024-01-15',
             '2024-01-20'
         ]);
-        const diffs = dtas.diferenca_dias();
+        const diffs = dtas.diferencaDias();
         expect(diffs.every(d => d === 5)).toBe(true);
     });
 
     it('deve trabalhar com timestamps altos', () => {
-        const datas = criarRangeDatas('2050-01-01', '2050-01-10', 'D');
+        const datas = criarIntervaloDatas('2050-01-01', '2050-01-10', 'D');
         expect(datas.comprimento).toBe(10);
         // Verificar que são datas em 2050 ou 2049 (timezone)
         expect(Math.max(...datas.ano)).toBe(2050);

@@ -22,17 +22,17 @@ export {
 
 // Fase 5: Séries Temporais
 export {
-  IndiceTemporal as IndiceTemporal,
-  criarRangeDatas,
-  parsearData,
+  IndiceTemporal,
+  criarIntervaloDatas,
+  compreenderData,
   formatarData,
-  diferenca_dias,
-  diferenca_horas,
+  diferencaDias,
+  diferencaHoras,
 } from './indice-temporal';
 
 export {
-  Reamostrador as Resampler,
-  reamostrar as resample,
+  Reamostrador,
+  reamostrar,
   type Frequencia,
   type FuncaoAgregacao,
 } from './reamostrador';

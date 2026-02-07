@@ -293,7 +293,7 @@ export class IndiceTemporal {
     /**
      * Calcula diferença entre datas consecutivas em dias
      */
-    diferenca_dias(): number[] {
+    diferencaDias(): number[] {
         const ms = this.diferencas();
         const MS_POR_DIA = 24 * 60 * 60 * 1000;
         return ms.map(m => m / MS_POR_DIA);
@@ -328,7 +328,7 @@ export class IndiceTemporal {
  * const dti = criarRangeDatas('2024-01-01', '2024-01-10', 'D');
  * // Cria datas de 1 a 10 de janeiro, 1 dia entre cada
  */
-export function criarRangeDatas(
+export function criarIntervaloDatas(
     dataInicio: Date | string,
     dataFim: Date | string,
     frequencia: 'D' | 'H' | 'S' | 'M' | 'Y' = 'D'
@@ -372,15 +372,15 @@ export function criarRangeDatas(
 /**
  * Parseia string de data em formato ISO 8601
  * 
- * @param str - String ISO 8601 (YYYY-MM-DD ou YYYY-MM-DDTHH:mm:ss)
+ * @param texto - String ISO 8601 (YYYY-MM-DD ou YYYY-MM-DDTHH:mm:ss)
  * @returns Date
  */
-export function parsearData(str: string): Date {
-    const normalizado = str.replace(' ', 'T');
+export function compreenderData(texto: string): Date {
+    const normalizado = texto.replace(' ', 'T');
     const data = new Date(normalizado);
     
     if (isNaN(data.getTime())) {
-        throw new Error(`Formato de data inválido: ${str}`);
+        throw new Error(`Formato de data inválido: ${texto}`);
     }
     
     return data;
@@ -419,7 +419,7 @@ export function formatarData(data: Date, formato: string = 'YYYY-MM-DD'): string
 /**
  * Calcula diferença entre duas datas em dias
  */
-export function diferenca_dias(data1: Date, data2: Date): number {
+export function diferencaDias(data1: Date, data2: Date): number {
     const MS_POR_DIA = 24 * 60 * 60 * 1000;
     return (data2.getTime() - data1.getTime()) / MS_POR_DIA;
 }
@@ -427,7 +427,7 @@ export function diferenca_dias(data1: Date, data2: Date): number {
 /**
  * Calcula diferença entre duas datas em horas
  */
-export function diferenca_horas(data1: Date, data2: Date): number {
+export function diferencaHoras(data1: Date, data2: Date): number {
     const MS_POR_HORA = 60 * 60 * 1000;
     return (data2.getTime() - data1.getTime()) / MS_POR_HORA;
 }

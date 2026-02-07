@@ -5,13 +5,13 @@
  */
 
 import { Reamostrador, reamostrar, type Frequencia } from '../fontes/reamostrador';
-import { IndiceTemporal, criarRangeDatas } from '../fontes/indice-temporal';
+import { IndiceTemporal, criarIntervaloDatas } from '../fontes/indice-temporal';
 import { RecorteDados } from '../fontes/recorte-dados';
 
 describe('Resampler', () => {
     describe('Construção', () => {
         it('deve criar Resampler com dados e índice válidos', () => {
-            const datas = criarRangeDatas('2024-01-01', '2024-01-05', 'D');
+            const datas = criarIntervaloDatas('2024-01-01', '2024-01-05', 'D');
             const rd = new RecorteDados({
                 valor: [10, 20, 30, 40, 50],
                 categoria: ['A', 'B', 'A', 'B', 'A']
@@ -22,7 +22,7 @@ describe('Resampler', () => {
         });
 
         it('deve lançar erro se comprimentos não correspondem', () => {
-            const datas = criarRangeDatas('2024-01-01', '2024-01-05', 'D');
+            const datas = criarIntervaloDatas('2024-01-01', '2024-01-05', 'D');
             const rd = new RecorteDados({
                 valor: [10, 20, 30] // Comprimento 3, mas datas têm 5
             });
@@ -37,7 +37,7 @@ describe('Resampler', () => {
 
         beforeEach(() => {
             // Criar 10 dias de dados
-            datas = criarRangeDatas('2024-01-01', '2024-01-10', 'D');
+            datas = criarIntervaloDatas('2024-01-01', '2024-01-10', 'D');
             rd = new RecorteDados({
                 valor: [10, 20, 15, 25, 30, 35, 40, 45, 50, 55],
                 quantidade: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -133,7 +133,7 @@ describe('Resampler', () => {
     describe('Downsampling - Diferentes Frequências', () => {
         it('deve fazer downsampling de frequência D (diária) para H (horária)', () => {
             // Esta frequência aumenta em vez de diminuir, mas testa a lógica
-            const datas = criarRangeDatas('2024-01-01T00:00:00', '2024-01-01T23:00:00', 'H');
+            const datas = criarIntervaloDatas('2024-01-01T00:00:00', '2024-01-01T23:00:00', 'H');
             const rd = new RecorteDados({
                 temperatura: Array.from({ length: 24 }, (_, i) => 20 + i * 0.5)
             });
@@ -146,7 +146,7 @@ describe('Resampler', () => {
         });
 
         it('deve fazer downsampling para frequência semanal (S)', () => {
-            const datas = criarRangeDatas('2024-01-01', '2024-02-28', 'D');
+            const datas = criarIntervaloDatas('2024-01-01', '2024-02-28', 'D');
             const rd = new RecorteDados({
                 valor: Array.from({ length: datas.comprimento }, (_, i) => i + 1)
             });
@@ -184,7 +184,7 @@ describe('Resampler', () => {
 
         beforeEach(() => {
             // Criar 3 dias de dados
-            datas = criarRangeDatas('2024-01-01', '2024-01-03', 'D');
+            datas = criarIntervaloDatas('2024-01-01', '2024-01-03', 'D');
             rd = new RecorteDados({
                 valor: [10, 20, 30],
                 categoria: ['A', 'B', 'C']
@@ -245,7 +245,7 @@ describe('Resampler', () => {
 
     describe('Casos de Uso Realistas', () => {
         it('deve resample série temporal de vendas diárias para mensal', () => {
-            const datas = criarRangeDatas('2024-01-01', '2024-03-31', 'D');
+            const datas = criarIntervaloDatas('2024-01-01', '2024-03-31', 'D');
             const rd = new RecorteDados({
                 vendas: Array.from({ length: datas.comprimento }, () => 
                     Math.floor(Math.random() * 1000)
@@ -263,7 +263,7 @@ describe('Resampler', () => {
         });
 
         it('deve resample série temporal de temperatura por hora para diária', () => {
-            const datas = criarRangeDatas('2024-01-01T00:00:00', '2024-01-02T23:00:00', 'H');
+            const datas = criarIntervaloDatas('2024-01-01T00:00:00', '2024-01-02T23:00:00', 'H');
             const rd = new RecorteDados({
                 temperatura: Array.from({ length: datas.comprimento }, (_, i) =>
                     20 + 10 * Math.sin(i * Math.PI / 12)
@@ -300,7 +300,7 @@ describe('Resampler', () => {
 
     describe('Validação e Erros', () => {
         it('deve lançar erro para agregação desconhecida', () => {
-            const datas = criarRangeDatas('2024-01-01', '2024-01-05', 'D');
+            const datas = criarIntervaloDatas('2024-01-01', '2024-01-05', 'D');
             const rd = new RecorteDados({ valor: [1, 2, 3, 4, 5] });
             const resampler = new Reamostrador(rd, datas, 'M');
 
@@ -319,7 +319,7 @@ describe('Resampler', () => {
         });
 
         it('deve lidar com NULL values', () => {
-            const datas = criarRangeDatas('2024-01-01', '2024-01-05', 'D');
+            const datas = criarIntervaloDatas('2024-01-01', '2024-01-05', 'D');
             const rd = new RecorteDados({
                 valor: [10, null, 30, null, 50]
             });
@@ -337,7 +337,7 @@ describe('Função resample', () => {
     let rd: RecorteDados;
 
     beforeEach(() => {
-        datas = criarRangeDatas('2024-01-01', '2024-01-10', 'D');
+        datas = criarIntervaloDatas('2024-01-01', '2024-01-10', 'D');
         rd = new RecorteDados({
             valor: [10, 20, 15, 25, 30, 35, 40, 45, 50, 55],
             categoria: ['A', 'B', 'A', 'B', 'A', 'B', 'A', 'B', 'A', 'B']
@@ -422,7 +422,7 @@ describe('Interpolação', () => {
 
 describe('Performance e Escalabilidade', () => {
     it('deve processar grande volume de dados', () => {
-        const datas = criarRangeDatas('2020-01-01', '2024-12-31', 'D');
+        const datas = criarIntervaloDatas('2020-01-01', '2024-12-31', 'D');
         const rd = new RecorteDados({
             valor: Array.from({ length: datas.comprimento }, (_, i) => i * 1.5)
         });
@@ -435,7 +435,7 @@ describe('Performance e Escalabilidade', () => {
     });
 
     it('deve resampling com muitas colunas', () => {
-        const datas = criarRangeDatas('2024-01-01', '2024-01-31', 'D');
+        const datas = criarIntervaloDatas('2024-01-01', '2024-01-31', 'D');
         const dados_obj: Record<string, number[]> = {};
         
         for (let i = 0; i < 20; i++) {

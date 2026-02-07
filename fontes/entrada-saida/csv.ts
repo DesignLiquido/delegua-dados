@@ -1,4 +1,8 @@
-import { analisarCsv as analisarCsvDelegua, serializarCsv as serializarCsvDelegua, OpcoesCsvInterface } from '@designliquido/delegua-csv/fontes';
+import {
+    textoParaObjetoCsv,
+    objetoCsvParaTexto,
+    OpcoesCsvInterface
+} from '@designliquido/delegua-csv/fontes';
 import { RecorteDados } from '../recorte-dados';
 
 /**
@@ -12,10 +16,10 @@ export interface OpcoesCSV {
     indice?: boolean;
 }
 
-function mapearOpcoesCSV(opcoes?: OpcoesCSV): OpcoesCsvInterface {
+function mapearOpcoesCSV(opcoes?: OpcoesCSV, temCabecalho?: boolean): OpcoesCsvInterface {
     return {
         delimitador: opcoes?.delimitador,
-        cabecalho: false,
+        cabecalho: temCabecalho ?? false,
         ignorarLinhasVazias: true
     };
 }
@@ -103,7 +107,7 @@ export function analisarCSV(conteudoCSV: string, opcoes?: OpcoesCSV): RecorteDad
     };
 
     const textoNormalizado = normalizarTextoCSV(conteudoCSV, opcoesPadrao.temInicio);
-    const linhas = analisarCsvDelegua({}, textoNormalizado, mapearOpcoesCSV(opcoesPadrao));
+    const linhas = textoParaObjetoCsv({}, textoNormalizado, mapearOpcoesCSV(opcoesPadrao, false));
 
     if (!Array.isArray(linhas) || linhas.length === 0) {
         return new RecorteDados({});
@@ -201,7 +205,7 @@ export function paraCSV(df: RecorteDados, opcoes?: OpcoesCSV): string {
         tabela.push(valores);
     });
 
-    return serializarCsvDelegua({}, tabela, mapearOpcoesCSV(opcoesPadrao));
+    return objetoCsvParaTexto({}, tabela, mapearOpcoesCSV(opcoesPadrao, false));
 }
 
 /**
