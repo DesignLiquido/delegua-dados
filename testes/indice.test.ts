@@ -102,8 +102,8 @@ describe('Indice', () => {
             expect(copia.nome).toBe(indice.nome);
         });
 
-        it('paraArray() deve retornar array de valores', () => {
-            const array = indice.paraArray();
+        it('paraVetor() deve retornar array de valores', () => {
+            const array = indice.paraVetor();
             expect(array).toEqual(['a', 'b', 'c', 'a', 'b']);
         });
 

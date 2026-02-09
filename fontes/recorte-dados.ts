@@ -42,7 +42,7 @@ export class RecorteDados {
             this.colunas = dados.colunas.copia();
         } else if (Array.isArray(dados) && dados.length > 0 && typeof dados[0] === 'object') {
             // Array de objetos
-            this.inicializarDeArray(dados as Record<string, any>[], opcoes?.indice);
+            this.inicializarDeVetor(dados as Record<string, any>[], opcoes?.indice);
         } else {
             // Objeto com colunas
             this.inicializarDeObjeto(dados as Record<string, any[]>, opcoes?.indice);
@@ -69,7 +69,7 @@ export class RecorteDados {
         // Criar Series para cada coluna
         for (const coluna of colunas) {
             this.dados.set(coluna, new Serie(dados[coluna], {
-                indice: this.indice.paraArray(),
+                indice: this.indice.paraVetor(),
                 nome: coluna
             }));
         }
@@ -79,9 +79,9 @@ export class RecorteDados {
     }
 
     /**
-     * Inicializa a partir de um array de objetos
+     * Inicializa a partir de um vetor de objetos
      */
-    private inicializarDeArray(dados: Record<string, any>[], indiceCustomizado?: any[]): void {
+    private inicializarDeVetor(dados: Record<string, any>[], indiceCustomizado?: any[]): void {
         if (dados.length === 0) {
             this.indice = new Indice([]);
             this.colunas = new Indice([]);
@@ -99,7 +99,7 @@ export class RecorteDados {
         for (const coluna of colunas) {
             const valores = dados.map(obj => obj[coluna] ?? null);
             this.dados.set(coluna, new Serie(valores, {
-                indice: this.indice.paraArray(),
+                indice: this.indice.paraVetor(),
                 nome: coluna
             }));
         }
@@ -119,7 +119,7 @@ export class RecorteDados {
      * Retorna os nomes das colunas
      */
     get nomeColunas(): string[] {
-        return this.colunas.paraArray();
+        return this.colunas.paraVetor();
     }
 
     /**
@@ -133,11 +133,11 @@ export class RecorteDados {
         const novosDados: Record<string, any[]> = {};
 
         for (const [coluna, serie] of this.dados.entries()) {
-            novosDados[coluna] = serie.paraArray().slice(0, quantidade);
+            novosDados[coluna] = serie.paraVetor().slice(0, quantidade);
         }
 
         return new RecorteDados(novosDados, {
-            indice: this.indice.paraArray().slice(0, quantidade)
+            indice: this.indice.paraVetor().slice(0, quantidade)
         });
     }
 
@@ -153,11 +153,11 @@ export class RecorteDados {
         const novosDados: Record<string, any[]> = {};
 
         for (const [coluna, serie] of this.dados.entries()) {
-            novosDados[coluna] = serie.paraArray().slice(inicio);
+            novosDados[coluna] = serie.paraVetor().slice(inicio);
         }
 
         return new RecorteDados(novosDados, {
-            indice: this.indice.paraArray().slice(inicio)
+            indice: this.indice.paraVetor().slice(inicio)
         });
     }
 
@@ -239,11 +239,11 @@ export class RecorteDados {
             if (!this.dados.has(coluna)) {
                 throw new Error(`Coluna '${coluna}' não encontrada`);
             }
-            novosDados[coluna] = this.dados.get(coluna)!.paraArray();
+            novosDados[coluna] = this.dados.get(coluna)!.paraVetor();
         }
 
         return new RecorteDados(novosDados, {
-            indice: this.indice.paraArray()
+            indice: this.indice.paraVetor()
         });
     }
 
@@ -260,7 +260,7 @@ export class RecorteDados {
         }
 
         this.dados.set(nome, new Serie(valores, {
-            indice: this.indice.paraArray(),
+            indice: this.indice.paraVetor(),
             nome: nome
         }));
 
@@ -281,12 +281,12 @@ export class RecorteDados {
 
         for (const [coluna, serie] of this.dados.entries()) {
             if (!colunas.includes(coluna)) {
-                novosDados[coluna] = serie.paraArray();
+                novosDados[coluna] = serie.paraVetor();
             }
         }
 
         return new RecorteDados(novosDados, {
-            indice: this.indice.paraArray()
+            indice: this.indice.paraVetor()
         });
     }
 
@@ -301,11 +301,11 @@ export class RecorteDados {
 
         for (const [coluna, serie] of this.dados.entries()) {
             const novoNome = mapeamento[coluna] || coluna;
-            novosDados[novoNome] = serie.paraArray();
+            novosDados[novoNome] = serie.paraVetor();
         }
 
         return new RecorteDados(novosDados, {
-            indice: this.indice.paraArray()
+            indice: this.indice.paraVetor()
         });
     }
 
@@ -341,7 +341,7 @@ export class RecorteDados {
         }
 
         return new RecorteDados(novosDados, {
-            indice: this.indice.paraArray()
+            indice: this.indice.paraVetor()
         });
     }
 
@@ -389,7 +389,7 @@ export class RecorteDados {
             novosDados[coluna] = [];
         }
 
-        this.indice.paraArray().forEach((rotulo, i) => {
+        this.indice.paraVetor().forEach((rotulo, i) => {
             if (mascara[i]) {
                 novoIndice.push(rotulo);
                 for (const [coluna, serie] of this.dados.entries()) {
@@ -456,7 +456,7 @@ export class RecorteDados {
     /**
      * Converte o DataFrame em array de objetos
      */
-    paraArrayObjetos(): Record<string, any>[] {
+    paraVetorObjetos(): Record<string, any>[] {
         const resultado: Record<string, any>[] = [];
 
         for (let i = 0; i < this.indice.tamanho; i++) {

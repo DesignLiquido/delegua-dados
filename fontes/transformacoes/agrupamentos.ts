@@ -243,7 +243,7 @@ export class AgruparPor {
      */
     transformar(coluna: string, funcao: (valores: any[]) => number): RecorteDados {
         const resultado = this.recorte.copia();
-        const dados = resultado.paraArrayObjetos();
+        const dados = resultado.paraVetorObjetos();
 
         for (const [chaveGrupo, indices] of this.grupos) {
             const valoresGrupo = indices.map(idx => this.recorte.obterRotulo(idx, coluna));

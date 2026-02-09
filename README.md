@@ -111,7 +111,7 @@ const rd3 = new RecorteDados(rd1);
 rd.cabeca(5);              // Primeiras N linhas
 rd.cauda(3);               // Últimas N linhas
 rd.paraTexto();            // String formatada
-rd.paraArrayObjetos();     // Array de objetos
+rd.paraVetorObjetos();     // Array de objetos
 rd.info();                 // Informações de colunas
 rd.descrever();            // Estatísticas resumidas
 ```

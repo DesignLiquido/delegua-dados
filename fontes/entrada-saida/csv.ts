@@ -187,8 +187,8 @@ export function paraCSV(df: RecorteDados, opcoes?: OpcoesCSV): string {
     tabela.push(cabecalho);
 
     // Escrever dados
-    const dados = df.paraArrayObjetos();
-    const indice = df.indice.paraArray();
+    const dados = df.paraVetorObjetos();
+    const indice = df.indice.paraVetor();
 
     dados.forEach((linha, i) => {
         const valores: string[] = [];

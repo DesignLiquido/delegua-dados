@@ -76,7 +76,7 @@ export class Serie<T = any> {
         return new Serie(
             this.dados.slice(0, quantidade),
             {
-                indice: this.indice.paraArray().slice(0, quantidade),
+                indice: this.indice.paraVetor().slice(0, quantidade),
                 nome: this.nome,
                 tipoDado: this.tipoDado
             }
@@ -95,7 +95,7 @@ export class Serie<T = any> {
         return new Serie(
             this.dados.slice(inicio),
             {
-                indice: this.indice.paraArray().slice(inicio),
+                indice: this.indice.paraVetor().slice(inicio),
                 nome: this.nome,
                 tipoDado: this.tipoDado
             }
@@ -131,7 +131,7 @@ export class Serie<T = any> {
     temNulo(): Serie<boolean> {
         return new Serie(
             this.dados.map(v => v === null || v === undefined),
-            { indice: this.indice.paraArray(), nome: `${this.nome}_nulo` }
+            { indice: this.indice.paraVetor(), nome: `${this.nome}_nulo` }
         );
     }
 
@@ -143,7 +143,7 @@ export class Serie<T = any> {
     naoTemNulo(): Serie<boolean> {
         return new Serie(
             this.dados.map(v => v !== null && v !== undefined),
-            { indice: this.indice.paraArray(), nome: `${this.nome}_nao_nulo` }
+            { indice: this.indice.paraVetor(), nome: `${this.nome}_nao_nulo` }
         );
     }
 
@@ -180,7 +180,7 @@ export class Serie<T = any> {
         return new Serie(
             this.dados.map(v => (v === null || v === undefined) ? valor : v),
             {
-                indice: this.indice.paraArray(),
+                indice: this.indice.paraVetor(),
                 nome: this.nome,
                 tipoDado: this.tipoDado
             }
@@ -269,7 +269,7 @@ export class Serie<T = any> {
     aplicar<U>(funcao: (valor: T, indice?: any) => U): Serie<U> {
         return new Serie(
             this.dados.map((v, i) => funcao(v, this.indice.get(i))),
-            { indice: this.indice.paraArray(), nome: this.nome }
+            { indice: this.indice.paraVetor(), nome: this.nome }
         );
     }
 
@@ -308,16 +308,16 @@ export class Serie<T = any> {
      */
     copia(): Serie<T> {
         return new Serie(this.dados, {
-            indice: this.indice.paraArray(),
+            indice: this.indice.paraVetor(),
             nome: this.nome,
             tipoDado: this.tipoDado
         });
     }
 
     /**
-     * Converte a série em array
+     * Converte a série em vetor
      */
-    paraArray(): T[] {
+    paraVetor(): T[] {
         return [...this.dados];
     }
 

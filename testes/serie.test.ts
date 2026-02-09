@@ -141,7 +141,7 @@ describe('Serie', () => {
             const s2 = new Serie([10, 20, 30], { indice: ['c', 'a', 'b'] });
             const resultado = s2.ordenarIndice();
             expect(resultado.dados).toEqual([20, 30, 10]);
-            expect(resultado.indice.paraArray()).toEqual(['a', 'b', 'c']);
+            expect(resultado.indice.paraVetor()).toEqual(['a', 'b', 'c']);
         });
     });
 
@@ -214,8 +214,8 @@ describe('Serie', () => {
             expect(s.tamanho).toBe(3);
         });
 
-        it('paraArray() deve retornar array de valores', () => {
-            const array = s.paraArray();
+        it('paraVetor() deve retornar array de valores', () => {
+            const array = s.paraVetor();
             expect(array).toEqual([1, 2, 3]);
         });
 

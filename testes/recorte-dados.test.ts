@@ -247,8 +247,8 @@ describe('DadosTabela', () => {
             expect(rd.nomeColunas.length).toBe(2);
         });
 
-        it('paraArrayObjetos() deve converter para array de objetos', () => {
-            const resultado = rd.paraArrayObjetos();
+        it('paraVetorObjetos() deve converter para array de objetos', () => {
+            const resultado = rd.paraVetorObjetos();
             expect(Array.isArray(resultado)).toBe(true);
             expect(resultado.length).toBe(2);
             expect(resultado[0]['nome']).toBe('Alice');

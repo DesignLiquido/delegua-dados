@@ -102,7 +102,7 @@ export class Indice {
     /**
      * Retorna o índice em formato de array
      */
-    paraArray(): any[] {
+    paraVetor(): any[] {
         return [...this.valores];
     }
 

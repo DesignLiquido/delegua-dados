@@ -247,7 +247,7 @@ export const DeleguaModuloDados = {
   },
   RecorteDados: {
     implementacao: RecorteDados,
-    metodos: recorteDadosMetodos,
+    metodos: recorteDadosMetodos
   },
   IndiceTemporal: {
     implementacao: IndiceTemporal,
