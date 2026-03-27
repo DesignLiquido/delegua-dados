@@ -1,6 +1,6 @@
 {
   "name": "@designliquido/delegua-dados",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Biblioteca para análise de dados, baseada na biblioteca Pandas do Python, adaptada para o ambiente de Delégua.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,7 +28,7 @@
   "author": "Design Liquido",
   "license": "MIT",
   "devDependencies": {
-    "@designliquido/delegua": "^1.5.0",
+    "@designliquido/delegua": "^1.15.3",
     "@jest/types": "^29.5.8",
     "@types/jest": "^29.5.11",
     "@types/mock-fs": "^4.13.4",
