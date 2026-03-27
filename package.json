@@ -1,6 +1,6 @@
 {
   "name": "@designliquido/delegua-dados",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Biblioteca para análise de dados, baseada na biblioteca Pandas do Python, adaptada para o ambiente de Delégua.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
