@@ -282,10 +282,10 @@
   resolved "https://registry.yarnpkg.com/@designliquido/delegua-csv/-/delegua-csv-0.0.2.tgz#40ffd4db445f12b56c90d4df87661b7b8470f146"
   integrity sha512-4ndNhqFwkIe7LtVQ0aYurqq6ejOHrMfNZeKCnjvxZAuDDT8j9swTXbHbC87Qbex1a9dMnK5IZdU9VxThOq0TrA==
 
-"@designliquido/delegua@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@designliquido/delegua/-/delegua-1.5.0.tgz#74a147037a038b353fcf0f8e117e4340ee736a6f"
-  integrity sha512-gBcLD2luJg5Ov0TteB2Syjzfti9fmA+4QLbT9eaWUESBK1cQVUAFJOOforb/6pF8xvrm4WAYyp0A9YSjSD5f6g==
+"@designliquido/delegua@^1.15.4":
+  version "1.15.4"
+  resolved "https://registry.yarnpkg.com/@designliquido/delegua/-/delegua-1.15.4.tgz#ebe9e9102d2aefca78005d2954dd0871f51a4198"
+  integrity sha512-Su/jUVbwHod/9V7MaKfFdTjFdZI0Akyv9QnYtEhIKpFmWOEpnx3JCIG7Nn4IGbNPx5a7jfJ+TA4YsaaOv8zjdg==
   dependencies:
     antlr4ts "^0.5.0-alpha.4"
     browser-process-hrtime "^1.0.0"

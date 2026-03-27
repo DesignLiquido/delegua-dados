@@ -7,8 +7,8 @@
   "scripts": {
     "empacotar": "yarn rimraf ./dist && tsc && yarn copyfiles -V ./README.md ./dist && yarn copyfiles -V ./LICENSE ./dist && yarn copyfiles -V ./package.json ./dist",
     "publicar-npm": "npm publish ./dist --access public",
-    "testes-unitarios": "jest",
-    "testes-unitarios:assistidos": "jest --watch"
+    "testes-unitarios": "yarn jest --coverage",
+    "testes-unitarios:assistidos": "yarn jest --watch"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
   "author": "Design Liquido",
   "license": "MIT",
   "devDependencies": {
-    "@designliquido/delegua": "^1.15.3",
+    "@designliquido/delegua": "^1.15.4",
     "@jest/types": "^29.5.8",
     "@types/jest": "^29.5.11",
     "@types/mock-fs": "^4.13.4",
