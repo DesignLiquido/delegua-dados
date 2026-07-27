@@ -21,8 +21,8 @@ import {
   formatarData,
   reamostrar,
   Reamostrador
-} from './fontes';
-import { compreenderData, criarIntervaloDatas, diferencaDias, diferencaHoras } from './fontes/indice-temporal';
+} from '.';
+import { compreenderData, criarIntervaloDatas, diferencaDias, diferencaHoras } from './indice-temporal';
 
 // Re-export para compatibilidade
 export {

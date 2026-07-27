@@ -13,9 +13,15 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "ignoreDeprecations": "6.0",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
   },
   "include": ["fontes/**/*"],
-  "exclude": ["node_modules", "dist", "testes"]
+  "exclude": [
+    "jest.config.ts",
+    "node_modules", 
+    "dist", 
+    "testes"
+  ]
 }

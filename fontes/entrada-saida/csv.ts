@@ -47,6 +47,47 @@ export interface SistemaArquivosAbstrato {
     existeArquivo(caminho: string): Promise<boolean>;
 }
 
+/**
+ * Variante síncrona de `SistemaArquivosAbstrato`, usada internamente por `lerCSV`/`escreverCSV`
+ * para manter a assinatura síncrona já publicada dessas duas funções. Implementações assíncronas
+ * (fetch, localStorage, IndexedDB etc.) devem usar `SistemaArquivosAbstrato` com
+ * `lerCSVComSistema`/`escreverCSVComSistema` em vez desta.
+ */
+interface SistemaArquivosSincronoAbstrato {
+    lerArquivoTexto(caminho: string): string;
+    escreverArquivoTexto(caminho: string, conteudo: string): void;
+    existeArquivo(caminho: string): boolean;
+}
+
+let sistemaArquivosSincronoNodeJS: SistemaArquivosSincronoAbstrato | null = null;
+
+function obterSistemaArquivosSincronoNodeJS(): SistemaArquivosSincronoAbstrato {
+    if (sistemaArquivosSincronoNodeJS) {
+        return sistemaArquivosSincronoNodeJS;
+    }
+
+    const fs = require('fs');
+    const path = require('path');
+
+    sistemaArquivosSincronoNodeJS = {
+        lerArquivoTexto(caminho: string): string {
+            return fs.readFileSync(caminho, 'utf-8');
+        },
+        escreverArquivoTexto(caminho: string, conteudo: string): void {
+            const diretorio = path.dirname(caminho);
+            if (!fs.existsSync(diretorio)) {
+                fs.mkdirSync(diretorio, { recursive: true });
+            }
+            fs.writeFileSync(caminho, conteudo, 'utf-8');
+        },
+        existeArquivo(caminho: string): boolean {
+            return fs.existsSync(caminho);
+        }
+    };
+
+    return sistemaArquivosSincronoNodeJS;
+}
+
 // Implementação padrão (Node.js) - carregada dinamicamente apenas se disponível
 let sistemaArquivosNodeJS: SistemaArquivosAbstrato | null = null;
 
@@ -223,16 +264,14 @@ export function paraCSV(df: RecorteDados, opcoes?: OpcoesCSV): string {
  */
 export function lerCSV(caminhoArquivo: string, opcoes?: OpcoesCSV): RecorteDados {
     try {
-        const fs = require('fs');
-        
-        // Verificar se arquivo existe
-        if (!fs.existsSync(caminhoArquivo)) {
+        const sistemaArquivos = obterSistemaArquivosSincronoNodeJS();
+
+        if (!sistemaArquivos.existeArquivo(caminhoArquivo)) {
             throw new Error(`Arquivo '${caminhoArquivo}' não encontrado`);
         }
 
-        // Ler arquivo
-        const conteudo = fs.readFileSync(caminhoArquivo, 'utf-8');
-        
+        const conteudo = sistemaArquivos.lerArquivoTexto(caminhoArquivo);
+
         // Usar função agnóstica para análise
         return analisarCSV(conteudo, opcoes);
     } catch (erro: any) {
@@ -262,20 +301,12 @@ export function lerCSV(caminhoArquivo: string, opcoes?: OpcoesCSV): RecorteDados
  */
 export function escreverCSV(df: RecorteDados, caminhoArquivo: string, opcoes?: OpcoesCSV): void {
     try {
-        const fs = require('fs');
-        const path = require('path');
-        
+        const sistemaArquivos = obterSistemaArquivosSincronoNodeJS();
+
         // Usar função agnóstica para conversão
         const conteudoCSV = paraCSV(df, opcoes);
 
-        // Criar diretório se não existir
-        const diretorio = path.dirname(caminhoArquivo);
-        if (!fs.existsSync(diretorio)) {
-            fs.mkdirSync(diretorio, { recursive: true });
-        }
-
-        // Escrever arquivo
-        fs.writeFileSync(caminhoArquivo, conteudoCSV, 'utf-8');
+        sistemaArquivos.escreverArquivoTexto(caminhoArquivo, conteudoCSV);
     } catch (erro: any) {
         if (erro.message?.includes('Cannot find module')) {
             throw new Error(
