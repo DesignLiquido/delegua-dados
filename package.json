@@ -2,8 +2,20 @@
   "name": "@designliquido/delegua-dados",
   "version": "0.0.1",
   "description": "Biblioteca para análise de dados, baseada na biblioteca Pandas do Python, adaptada para o ambiente de Delégua.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/fontes/index.js",
+  "types": "dist/fontes/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/fontes/index.d.ts",
+      "require": "./dist/fontes/index.js",
+      "default": "./dist/fontes/index.js"
+    },
+    "./testadores": {
+      "types": "./dist/fontes/testadores.d.ts",
+      "require": "./dist/fontes/testadores.js",
+      "default": "./dist/fontes/testadores.js"
+    }
+  },
   "scripts": {
     "empacotar": "yarn rimraf ./dist && tsc && yarn copyfiles -V ./README.md ./dist && yarn copyfiles -V ./LICENSE ./dist && yarn copyfiles -V ./package.json ./dist",
     "publicar-npm": "npm publish ./dist --access public",
@@ -12,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DesignLiquido/delegua-dados"
+    "url": "git+https://github.com/DesignLiquido/delegua-dados.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
@@ -44,5 +56,10 @@
   },
   "dependencies": {
     "@designliquido/delegua-csv": "^0.0.2"
-  }
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DesignLiquido/delegua-dados/issues"
+  },
+  "homepage": "https://github.com/DesignLiquido/delegua-dados#readme"
 }
