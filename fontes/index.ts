@@ -7,6 +7,11 @@
 export { Indice } from './indice';
 export { Serie } from './serie';
 export { RecorteDados } from './recorte-dados';
+export {
+  afirmarIndiceIgual,
+  afirmarSerieIgual,
+  afirmarRecorteDadosIgual,
+} from './testadores';
 
 // Fase 2-4: I/O - CSV (core)
 export {

@@ -3,7 +3,7 @@
 **Biblioteca de análise de dados para TypeScript/JavaScript, inspirada em Pandas e integrada com o interpretador Delégua.**
 
 ![Status](https://img.shields.io/badge/Status-Fase%206%20Completa-brightgreen)
-![Tests](https://img.shields.io/badge/Testes-380%2F380%20Passando-brightgreen)
+![Tests](https://img.shields.io/badge/Testes-387%2F387%20Passando-brightgreen)
 ![Browser Compatible](https://img.shields.io/badge/Browser%20Compatible-Yes-blue)
 ![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-blue)
 ![License](https://img.shields.io/badge/License-MIT-blue)
@@ -61,6 +61,32 @@ Alice,25,3000
 Bob,30,3500`;
 const rd2 = analisarCSV(csv);
 ```
+
+### Testadores
+
+O subpacote `testadores` compara índices, séries e recortes em testes automatizados:
+
+```typescript
+import { RecorteDados } from '@designliquido/delegua-dados';
+import {
+    afirmarRecorteDadosIgual,
+    afirmarSerieIgual,
+    afirmarIndiceIgual
+} from '@designliquido/delegua-dados/testadores';
+
+const resultado = new RecorteDados(
+    { salario: [5000] },
+    { indice: [12] }
+);
+const esperado = new RecorteDados(
+    { salario: [5000] },
+    { indice: [12] }
+);
+
+afirmarRecorteDadosIgual(resultado, esperado);
+```
+
+Quando há uma diferença, o erro identifica sua localização e mostra os valores esperado e obtido.
 
 ---
 
